@@ -5,9 +5,13 @@
 #include <bytes.hpp>
 #include <kernwin.hpp>
 
-#include <idax/xpro.hpp>
-#include <idax/xkernwin.hpp>
-#include <idax/xhexrays.hpp>
+#include <idacpp/core/core.hpp>
+#include <idacpp/kernwin/kernwin.hpp>
+#include <idacpp/hexrays/hexrays.hpp>
+
+using namespace idacpp::core;
+using namespace idacpp::kernwin;
+using namespace idacpp::hexrays;
 
 #define STORE_NODE_NAME                "$ hexrays strikeout-plugin"
 

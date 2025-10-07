@@ -40,7 +40,7 @@ struct codeitem_t
     const bool operator !() const          { return ea == BADADDR; }
     // Since we filter out instructions that break basic blocks (contain addresses) then
     // we assume it is safe to compare instruction bytes.
-    bool operator==(const codeitem_t& rhs) { return bytes == rhs.bytes; }
+    bool operator==(const codeitem_t& rhs) const { return bytes == rhs.bytes; }
 
     codeitem_t& operator =(const ea_t src)
     {

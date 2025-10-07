@@ -1,2 +1,4 @@
 build64/
 build/
+.vscode/launch.json
+.vscode/tasks.json
