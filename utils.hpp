@@ -3,7 +3,7 @@
 #include <pro.h>
 
 //----------------------------------------------------------------------------------
-struct hexrays_collect_cinsn_from_ea : public hexrays_ctreeparent_visitor_t
+struct hexrays_collect_cinsn_from_ea : public ctreeparent_visitor_t
 {
     cinsnptrvec_t* marked_insn = nullptr;
     eanodes_t* marked_ea = nullptr;
@@ -16,7 +16,7 @@ struct hexrays_collect_cinsn_from_ea : public hexrays_ctreeparent_visitor_t
 
     int idaapi visit_insn(cinsn_t* ins) override
     {
-        hexrays_ctreeparent_visitor_t::visit_insn(ins);
+        ctreeparent_visitor_t::visit_insn(ins);
         if (ins->op != cit_block && marked_ea->contains(ins->ea))
             marked_insn->push_back(ins);
 

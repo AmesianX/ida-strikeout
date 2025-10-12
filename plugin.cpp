@@ -65,9 +65,10 @@ struct strikeout_plg_t : public plugmod_t, event_listener_t
             AMAHF_HXE_POPUP,
             ACTION_NAME_DELSTMT,
             "Delete statement",
-            "Del",     
-            hexrays_default_enable_for_vd_expr,
-            FO_ACTION_ACTIVATE([this]) {
+            "Del",
+            default_enable_for_vd_expr,
+            FO_ACTION_ACTIVATE([this]) 
+            {
                 vdui_t &vu   = *get_widget_vdui(ctx->widget);
                 ea_t stmt_ea = this->do_del_stmt(vu);
                 if (stmt_ea != BADADDR)
@@ -120,7 +121,7 @@ struct strikeout_plg_t : public plugmod_t, event_listener_t
             ACTION_NAME_PATCHSTMT_FLUSH,
             "Apply patch statements queue",
             "Alt-Shift-End",
-            hexrays_default_enable_for_vd,
+            default_enable_for_vd,
             FO_ACTION_ACTIVATE([this]) {
                 vdui_t& vu = *get_widget_vdui(ctx->widget);
                 this->do_flush_patch_stmt(vu);
@@ -165,7 +166,7 @@ struct strikeout_plg_t : public plugmod_t, event_listener_t
             ACTION_NAME_DELSTMTS,
             "Clear all deleted statements",
             "",
-            hexrays_default_enable_for_vd,
+            default_enable_for_vd,
             FO_ACTION_ACTIVATE([this]) {
                 vdui_t &vu = *get_widget_vdui(ctx->widget);
                 this->do_reset_stmts(vu);
@@ -195,13 +196,13 @@ struct strikeout_plg_t : public plugmod_t, event_listener_t
         cinsnptrvec_t marked_insn;
         hexrays_collect_cinsn_from_ea helper(cfunc, &marked, &marked_insn);
 
-        hexrays_keep_lca_cinsns(cfunc, &helper, marked_insn);
+        keep_lca_cinsns(cfunc, &helper, marked_insn);
 
         for (auto stmt_item : marked_insn)
         {
             cblock_t* cblock;
             cblock_t::iterator pos;
-            if (hexrays_get_stmt_block_pos(cfunc, stmt_item, &cblock, &pos, &helper))
+            if (get_stmt_block_pos(cfunc, stmt_item, &cblock, &pos, &helper))
                 cblock->erase(pos);
         }
         cfunc->remove_unused_labels();
@@ -278,8 +279,8 @@ struct strikeout_plg_t : public plugmod_t, event_listener_t
         auto cfunc = vu.cfunc;
         auto item = vu.item.i;
 
-        hexrays_ctreeparent_visitor_ptr_t helper;
-        const citem_t* stmt_item = hexrays_get_stmt_insn(cfunc, item, use_helper ? &helper : nullptr);
+        ctreeparent_visitor_ptr_t helper;
+        const citem_t* stmt_item = get_stmt_insn(cfunc, item, use_helper ? &helper : nullptr);
         if (stmt_item == nullptr)
             return BADADDR;
 
@@ -287,11 +288,11 @@ struct strikeout_plg_t : public plugmod_t, event_listener_t
 
         cblock_t* cblock;
         cblock_t::iterator pos;
-        if (hexrays_get_stmt_block_pos(
-                cfunc, 
-                stmt_item, 
-                &cblock, 
-                &pos, 
+        if (get_stmt_block_pos(
+                cfunc,
+                stmt_item,
+                &cblock,
+                &pos,
                 use_helper ? helper.get() : nullptr))
         {
             cblock->erase(pos);
@@ -307,7 +308,7 @@ struct strikeout_plg_t : public plugmod_t, event_listener_t
     void do_flush_patch_stmt(vdui_t& vu)
     {
         // Walk the tree just to get citem_t* from actual saved EAs
-        struct collect_eas_t : public hexrays_ctreeparent_visitor_t
+        struct collect_eas_t : public ctreeparent_visitor_t
         {
             std::map<ea_t, int> eas;
             bool do_remember = false;
@@ -331,7 +332,7 @@ struct strikeout_plg_t : public plugmod_t, event_listener_t
             {
                 if (do_remember)
                     remember(ins->ea);
-                hexrays_ctreeparent_visitor_t::visit_insn(ins);
+                ctreeparent_visitor_t::visit_insn(ins);
                 return 0;
             }
 
@@ -339,7 +340,7 @@ struct strikeout_plg_t : public plugmod_t, event_listener_t
             {
                 if (do_remember)
                     remember(expr->ea);
-                hexrays_ctreeparent_visitor_t::visit_expr(expr);
+                ctreeparent_visitor_t::visit_expr(expr);
                 return 0;
             }
         } ti;
