@@ -23,3 +23,10 @@ ida_add_plugin(strikeout
 )
 
 target_link_libraries(strikeout PRIVATE idacpp::idacpp)
+
+# Add test executables
+file(GLOB TEST_SOURCES "test/*.c")
+foreach(TEST_SOURCE ${TEST_SOURCES})
+    get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
+    add_executable(${TEST_NAME} ${TEST_SOURCE})
+endforeach()
