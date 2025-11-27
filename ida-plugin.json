@@ -1,0 +1,29 @@
+{
+  "IDAMetadataDescriptorVersion": 1,
+  "plugin": {
+    "name": "StrikeOut",
+    "version": "0.2.0",
+    "entryPoint": "strikeout",
+    "description": "Hex-Rays Decompiler plugin to delete (hide) statements from the AST, simplifying pseudocode output. Supports patching with NOPs, persistence, and undo.",
+    "urls": {
+      "repository": "https://github.com/allthingsida/strikeout"
+    },
+    "authors": [
+      {
+        "name": "Elias Bachaalany",
+        "email": "elias.bachaalany@gmail.com"
+      }
+    ],
+    "categories": [
+      "decompilation",
+      "deobfuscation"
+    ],
+    "idaVersions": ">=9.0",
+    "platforms": [
+      "windows-x86_64",
+      "linux-x86_64",
+      "macos-aarch64"
+    ],
+    "license": "MIT"
+  }
+}

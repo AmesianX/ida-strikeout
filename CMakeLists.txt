@@ -18,6 +18,8 @@ ida_add_plugin(strikeout
         plugin.h
         utils.hpp
         storage.hpp
+    METADATA_JSON
+        ida-plugin.json
     DEBUG_ARGS
         "-t" "-z10000"
 )
